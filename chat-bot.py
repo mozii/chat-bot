@@ -137,8 +137,16 @@ class ChatBot:
         channel = options.channel if options.channel else config.get('server','channel')
         self.channel = "#%s" % channel
         self.quote_file = options.quote_file if options.quote_file else config.get('plugins','quote_file')
-
+        #if there is no loaded plugins list, then load a blank list to process through
+        blank_list = []
+        self.plugin_list = config.get('plugins','loaded_plugins') if config.get('plugins', 'loaded_plugins') else blank_list 
         self.conn = self._connect()
+
+    def _loadPulgIns(self):
+        '''
+        this function will load any plugin extensions from the config file
+        '''
+        pass
 
     def _processPRIVMSG(self, text):
         '''
@@ -175,9 +183,11 @@ class ChatBot:
             text=self.conn.recv(4096)
             print text
 
+            # this will take comments coming into the channel from people. 
             if text.find('PRIVMSG') > -1:
                 self._processPRIVMSG(text)
 
+            # this will keep the bot alive in the channel by responding to timeouts
             if text.find('PING') > -1:
                 self._sendPINGKeepAlive(text)
 

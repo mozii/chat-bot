@@ -1,0 +1,10 @@
+[server]
+
+nick = chat-bot
+server = irc.freenode.net
+port = 6667
+channel = chat-bot-test
+
+[plugins]
+loaded_plugins = ['quotes']
+
